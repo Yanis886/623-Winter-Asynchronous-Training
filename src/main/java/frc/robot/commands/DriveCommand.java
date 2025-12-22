@@ -1,12 +1,14 @@
 package frc.robot.commands;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.Drivetrain;
-import swervelib.SwerveDrive;
 
 public class DriveCommand extends Command {
    //variable drivetreain
@@ -35,7 +37,17 @@ public class DriveCommand extends Command {
     //Called repeatedly when the command is scheduled
     @Override
     public void execute(){
+        drivetrain.swerveDrive.driveFieldOriented(new ChassisSpeeds(
 
+            deadzone(xSupplier.getAsDouble(),0.05)* .3
+              * drivetrain.swerveDrive.getMaximumChassisVelocity(),
+
+            deadzone(ySupplier.getAsDouble(),0.05)
+              * drivetrain.swerveDrive.getMaximumChassisVelocity() * .3,
+
+            deadzone(thetaSupplier.getAsDouble(),0.05)
+              * drivetrain.swerveDrive.getMaximumChassisAngularVelocity()* .3),
+          new Translation2d());
     }
     //Called once when the command ends
     @Override
@@ -57,8 +69,17 @@ public class DriveCommand extends Command {
         return InterruptionBehavior.kCancelSelf;
     }
 
+    
+    public Set<Subsystem> getRequirements(){
+        Set<Subsystem> req = new HashSet<>();
+        req.add(drivetrain);
+        return req;
+    }
 
-
-
-
+    public static double deadzone(double num, double deadband){
+        if(Math.abs(num)<deadband){
+            return 0.0;
+        }
+        return num;
+    }
 }
