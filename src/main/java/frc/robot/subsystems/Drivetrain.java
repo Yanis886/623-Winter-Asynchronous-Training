@@ -22,7 +22,7 @@ import swervelib.SwerveDrive;
 import swervelib.parser.SwerveParser;
 
 public class Drivetrain extends SubsystemBase{
-    SwerveDrive swerveDrive;
+    public SwerveDrive swerveDrive;
     public Drivetrain(File directory){
         try{
         swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.MAX_SPEED,

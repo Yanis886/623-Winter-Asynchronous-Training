@@ -8,7 +8,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.Drivetrain;
-import swervelib.SwerveDrive;
 
 public class DriveCommand extends Command {
    //variable drivetreain
@@ -65,7 +64,7 @@ public class DriveCommand extends Command {
 
    @Override
    public Command.InterruptionBehavior getInterruptionBehavior(){
-      return Command.kCancelSelf;
+      return Command.InterruptionBehavior.kCancelSelf;
    }
 
    public HashSet<Subsystem> getRequirements(){
